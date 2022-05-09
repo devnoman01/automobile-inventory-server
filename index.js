@@ -38,6 +38,14 @@ async function run() {
       const vehicle = await vehicleCollection.findOne(query);
       res.send(vehicle);
     });
+
+    // POST - ADD a new vehicle
+    app.post("/vehicle", async (req, res) => {
+      const newVehicle = req.body;
+      console.log("adding new vehicle", newVehicle);
+      const result = await vehicleCollection.insertOne(newVehicle);
+      res.send({ result: "success" });
+    });
   } finally {
   }
 }
