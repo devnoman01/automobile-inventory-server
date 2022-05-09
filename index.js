@@ -23,7 +23,7 @@ async function run() {
       .db("automobileInventory")
       .collection("vehicle");
 
-    // LOAD all vehicle API
+    // LOAD all item
     app.get("/vehicle", async (req, res) => {
       const query = {};
       const cursor = vehicleCollection.find(query);
@@ -31,7 +31,7 @@ async function run() {
       res.send(vehicles);
     });
 
-    // LOAD specific vehicle
+    // LOAD specific item
     app.get("/vehicle/:vehicleId", async (req, res) => {
       const id = req.params.vehicleId;
       const query = { _id: ObjectId(id) };
@@ -39,12 +39,20 @@ async function run() {
       res.send(vehicle);
     });
 
-    // POST - ADD a new vehicle
+    // POST - ADD a new item
     app.post("/vehicle", async (req, res) => {
       const newVehicle = req.body;
       console.log("adding new vehicle", newVehicle);
       const result = await vehicleCollection.insertOne(newVehicle);
       res.send({ result: "success" });
+    });
+
+    // DELETE an item
+    app.delete("/vehicle/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await vehicleCollection.deleteOne(query);
+      res.send(result);
     });
   } finally {
   }
