@@ -42,7 +42,6 @@ async function run() {
     // POST - ADD a new item
     app.post("/vehicle", async (req, res) => {
       const newVehicle = req.body;
-      console.log("adding new vehicle", newVehicle);
       const result = await vehicleCollection.insertOne(newVehicle);
       res.send({ result: "success" });
     });
@@ -53,6 +52,14 @@ async function run() {
       const query = { _id: ObjectId(id) };
       const result = await vehicleCollection.deleteOne(query);
       res.send(result);
+    });
+
+    app.get("/myItem", async (req, res) => {
+      const email = req.query.email;
+      const query = { email: email };
+      const cursor = vehicleCollection.find(query);
+      const myItems = await cursor.toArray();
+      res.send(myItems);
     });
   } finally {
   }
