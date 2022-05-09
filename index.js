@@ -30,14 +30,6 @@ async function run() {
       const vehicles = await cursor.toArray();
       res.send(vehicles);
     });
-
-    // LOAD specific vehicle
-    app.get("/vehicle/:vehicleId", async (req, res) => {
-      const id = req.params.vehicleId;
-      const query = { _id: ObjectId(id) };
-      const vehicle = await vehicleCollection.findOne(query);
-      res.send(vehicle);
-    });
   } finally {
   }
 }
